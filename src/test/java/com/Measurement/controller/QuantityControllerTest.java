@@ -1,9 +1,9 @@
-package com.example.controller;
+package com.Measurement.controller;
 
-import com.example.exception.QuantityMeasurementException;
-import com.example.quantityDTO.QuantityDTO;
-import com.example.service.QuantityConversion;
-import com.example.service.QuantityServiceImpl;
+import com.Measurement.exception.QuantityMeasurementException;
+import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.service.QuantityConversion;
+import com.Measurement.service.QuantityServiceImpl;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;

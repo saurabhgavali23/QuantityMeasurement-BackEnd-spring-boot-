@@ -1,6 +1,6 @@
-package com.example.quantityDTO;
+package com.Measurement.quantityDTO;
 
-import com.example.service.QuantityConversion;
+import com.Measurement.service.QuantityConversion;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;

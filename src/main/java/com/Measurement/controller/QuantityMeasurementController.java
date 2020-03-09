@@ -1,8 +1,8 @@
-package com.example.controller;
+package com.Measurement.controller;
 
-import com.example.exception.QuantityMeasurementException;
-import com.example.quantityDTO.QuantityDTO;
-import com.example.service.QuantityServiceImpl;
+import com.Measurement.exception.QuantityMeasurementException;
+import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.service.QuantityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

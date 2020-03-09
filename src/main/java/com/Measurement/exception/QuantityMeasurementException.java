@@ -1,4 +1,4 @@
-package com.example.exception;
+package com.Measurement.exception;
 
 public class QuantityMeasurementException extends Throwable {
 

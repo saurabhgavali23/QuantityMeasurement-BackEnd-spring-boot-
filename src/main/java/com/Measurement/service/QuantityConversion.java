@@ -1,6 +1,6 @@
-package com.example.service;
+package com.Measurement.service;
 
-import com.example.quantityDTO.QuantityDTO;
+import com.Measurement.quantityDTO.QuantityDTO;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;

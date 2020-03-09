@@ -1,6 +1,6 @@
-package com.example.exceptionhandler;
+package com.Measurement.exceptionhandler;
 
-import com.example.exception.QuantityMeasurementException;
+import com.Measurement.exception.QuantityMeasurementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
