@@ -1,7 +1,7 @@
 package com.Measurement.service;
 
 import com.Measurement.exception.QuantityMeasurementException;
-import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.dto.QuantityDTO;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public interface IQuantityService {
 
     List getEnum(String unitType);
 
-    List<String> getUnit1List();
+    List<String> getUnitList();
 }

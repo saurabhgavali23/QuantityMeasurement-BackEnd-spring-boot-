@@ -1,7 +1,7 @@
 package com.Measurement.service;
 
 import com.Measurement.exception.QuantityMeasurementException;
-import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.dto.QuantityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class QuantityComparison {

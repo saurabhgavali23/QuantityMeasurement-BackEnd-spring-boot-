@@ -1,6 +1,6 @@
 package com.Measurement.service;
 
-import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.dto.QuantityDTO;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -14,14 +14,14 @@ public class QuantityConversion {
 
     public void getConversion(QuantityDTO a, QuantityDTO b) {
         if (b.unit.equals(MeasurementUnit.FAHRENHEIT))
-            b.value = (a.unit.getCeltoFeh(b.value));
-        else
             b.value = (a.unit.getFehtoCel(b.value));
+        else
+            b.value = (a.unit.getCeltoFeh(b.value));
     }
 
     public enum MeasurementUnit {
         FEET(12, 1, "Length"), INCH(1, 1, "Length"), YARD(36, 1, "Length"), CENTIMETER(1, 2.54, "Length"),
-        LITRE(1, 1, "Volume"), MILLI_LITRE(1000, 1, "Volume"), GALLON(3.78, 1, "Volume"),
+        LITRE(1, 1, "Volume"), MILLI_LITRE(1, 1000, "Volume"), GALLON(3.78, 1, "Volume"),
         KILO_GRAMS(1, 1, "Weight"), GRAMS(1, 1000, "Weight"), TONNE(1000, 1, "Weight"),
         FAHRENHEIT(9.0, 5.0, "Temperature"), CELSIUS(9.0, 5.0, "Temperature");
 
@@ -45,7 +45,6 @@ public class QuantityConversion {
 
         public double getCeltoFeh(@NotNull double value) {
             return (i / j) * value + 32;
-
         }
 
         public double getFehtoCel(double value) {

@@ -1,7 +1,7 @@
 package com.Measurement.controller;
 
 import com.Measurement.exception.QuantityMeasurementException;
-import com.Measurement.quantityDTO.QuantityDTO;
+import com.Measurement.dto.QuantityDTO;
 import com.Measurement.service.QuantityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +27,8 @@ public class QuantityMeasurementController {
         return quantityService.getEnum(unit);
     }
 
-    @GetMapping("/unit1list")
-    public List getUnit1List(){
-        return quantityService.getUnit1List();
+    @GetMapping("/unit")
+    public List getUnitList(){
+        return quantityService.getUnitList();
     }
-
 }
