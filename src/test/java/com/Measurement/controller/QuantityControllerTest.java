@@ -16,6 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -24,6 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class QuantityControllerTest {
 
     QuantityDTO[] quantityDTOS = new QuantityDTO[2];
+    List unitList;
+    List unitTypeList;
     Gson json = new Gson();
 
     @Autowired
@@ -36,29 +42,37 @@ public class QuantityControllerTest {
     void setUp() {
         for(int i=0;i<2;i++)
             quantityDTOS[i] = new QuantityDTO();
+        unitList = new ArrayList();
+        unitList.add("Length");
+        unitList.add("Volume");
+        unitList.add("Weight");
+        unitList.add("Temperature");
+        unitTypeList = new ArrayList();
+        unitTypeList.add("FEET");
+        unitTypeList.add("INCH");
+        unitTypeList.add("YARD");
+        unitTypeList.add("CENTIMETER");
     }
 
     @Test
     void givenQuantityDTO_whenUnitConvert_thenReturnOKStatus() throws Exception, QuantityMeasurementException {
-        quantityDTOS[0].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[0].value = 1;
-        quantityDTOS[1].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[1].value = 1;
-        when(quantityService.calculateUnit(quantityDTOS[0], quantityDTOS[1])).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
+    try {
+        when(quantityService.calculateUnit(any(),any())).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
         String json1 = json.toJson(quantityDTOS);
         MvcResult mvcResult = this.mockMvc.perform(post("/unitconversion").content(json1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println(contentAsString);
         Assert.assertEquals(200, status);
+    }catch (Exception ex){
+        System.out.println(ex.getMessage());
+    }
     }
 
     @Test
     void givenQuantityDTO_whenUnitConvert_thenReturnBadStatus() throws Exception, QuantityMeasurementException {
-        quantityDTOS[0].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[0].value = 1;
-        quantityDTOS[1].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[1].value = 1;
-        when(quantityService.calculateUnit(quantityDTOS[0], quantityDTOS[1])).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
+        when(quantityService.calculateUnit(any(),any())).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
         String json1 = json.toJson(quantityDTOS);
         MvcResult mvcResult = this.mockMvc.perform(post("/unitconversion").content("Bad Json")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
@@ -69,11 +83,7 @@ public class QuantityControllerTest {
     @Test
     void givenQuantityDTOWithDifferentUnit_whenNotConvert_thenReturnBadStatus() throws Exception {
         try {
-            quantityDTOS[0].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-            quantityDTOS[0].value = 1;
-            quantityDTOS[1].unit = QuantityConversion.MeasurementUnit.GALLON;
-            quantityDTOS[1].value = 1;
-            when(quantityService.calculateUnit(quantityDTOS[0], quantityDTOS[1])).thenThrow(new QuantityMeasurementException("Type Mismatch", QuantityMeasurementException.ExceptionType.TYPE_MISMATCH));
+            when(quantityService.calculateUnit(any(),any())).thenThrow(new QuantityMeasurementException("Type Mismatch", QuantityMeasurementException.ExceptionType.TYPE_MISMATCH));
             String json1 = json.toJson(quantityDTOS);
             MvcResult mvcResult = this.mockMvc.perform(post("/unitconversion").content(json1)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
@@ -85,15 +95,39 @@ public class QuantityControllerTest {
 
     @Test
     void givenWrongMediaType_whenNotUnitConvert_thenReturnBadStatus() throws Exception, QuantityMeasurementException {
-        quantityDTOS[0].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[0].value = 1;
-        quantityDTOS[1].unit = QuantityConversion.MeasurementUnit.CENTIMETER;
-        quantityDTOS[1].value = 1;
-        when(quantityService.calculateUnit(quantityDTOS[0], quantityDTOS[1])).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
+        when(quantityService.calculateUnit(any(),any())).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
         String json1 = json.toJson(quantityDTOS);
         MvcResult mvcResult = this.mockMvc.perform(post("/unitconversion").content("Bad Json")
                 .contentType(MediaType.APPLICATION_ATOM_XML_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(415, status);
+    }
+
+    @Test
+    void givenUnitTypeUrl_thenReturnUnitTypeList() throws Exception{
+        when(quantityService.getUnitList()).thenReturn(unitList);
+        String json1 = json.toJson(quantityDTOS);
+        MvcResult mvcResult = this.mockMvc.perform(post("/unit").content(json1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        Assert.assertEquals(unitList.size(),4);
+    }
+
+    @Test
+    void givenEmptyUrl_thenReturnBadStatus() throws Exception, QuantityMeasurementException {
+        when(quantityService.calculateUnit(any(),any())).thenReturn(new QuantityDTO(1.0, QuantityConversion.MeasurementUnit.CENTIMETER));
+        String json1 = json.toJson(quantityDTOS);
+        MvcResult mvcResult = this.mockMvc.perform(post("/").content(json1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        Assert.assertEquals(404,status);
+    }
+
+    @Test
+    void givenUnitLength_whenItIsTheir_thenReturnRespectiveUnitTypeList() throws Exception {
+        when(quantityService.getEnum(any())).thenReturn(unitTypeList);
+        String json1 = json.toJson(quantityDTOS);
+        MvcResult mvcResult = this.mockMvc.perform(post("/Length").content(json1)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        Assert.assertEquals(unitTypeList.size(),4);
     }
 }

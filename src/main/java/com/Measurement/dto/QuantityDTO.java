@@ -18,6 +18,21 @@ public class QuantityDTO {
         this.unit = unit;
     }
 
-    public QuantityDTO() {
+    public QuantityDTO() { }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuantityDTO that = (QuantityDTO) o;
+        QuantityConversion quantityConversion = new QuantityConversion();
+        quantityConversion.getConverted(this,that);
+        return Double.compare(that.value, value) == 0 &&
+                (unit == that.unit || (that.value == 0 && value == 0));
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

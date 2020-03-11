@@ -21,8 +21,7 @@ public class QuantityComparison {
             else
                 b.value = a.unit.getUnitsSame(b.unit.getConverted(b.value));
             b.unit = a.unit;
-        }
-        else
-            throw new QuantityMeasurementException("TYPE_MISMATCH",QuantityMeasurementException.ExceptionType.TYPE_MISMATCH);
+        } else
+            throw new QuantityMeasurementException("TYPE_MISMATCH", QuantityMeasurementException.ExceptionType.TYPE_MISMATCH);
     }
 }

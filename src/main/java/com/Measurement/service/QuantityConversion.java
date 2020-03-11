@@ -1,15 +1,18 @@
 package com.Measurement.service;
 
 import com.Measurement.dto.QuantityDTO;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 
-@Component
+@Service
 public class QuantityConversion {
 
-    public double getConverted(double values, MeasurementUnit units) {
-        return units.getConverted(values);
+    public void getConverted(QuantityDTO a, QuantityDTO b) {
+        if (a.unit.unitType.equals(b.unit.unitType)){
+            b.value = a.unit.getUnitsSame(b.unit.getConverted(b.value));
+            b.unit = a.unit;
+        }
     }
 
     public void getConversion(QuantityDTO a, QuantityDTO b) {
